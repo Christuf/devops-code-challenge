@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const getId = async () => {
       try {
-        const resp = await fetch(API_URL)
+        const resp = await fetch(API_URL+"/invoke")
         setSuccessMessage((await resp.json()).id)
       }
       catch(e) {
