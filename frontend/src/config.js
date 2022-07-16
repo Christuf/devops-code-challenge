@@ -1,2 +1,2 @@
-export const API_URL = 'http://nlb-1-6daf60a8dcdaacc6.elb.us-east-1.amazonaws.com/'
+export const API_URL = 'https://dhf4pqgd55.execute-api.us-east-1.amazonaws.com/default/'
 export default API_URL
