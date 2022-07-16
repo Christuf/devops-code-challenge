@@ -1,0 +1,37 @@
+name: Deploy Frontend to s3
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+      S3_BUCKET: fe-bucket-christuf
+      S3_BUCKET_REGION: us-east-1
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Go to Frontend Directory
+        run: cd ./frontend
+
+      - name: Install dependencies
+        run: cd ./frontend && npm install --silent --force 
+      - name: Build
+        run:  cd ./frontend && CI=false npm run --silent build 
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: ./frontend/build
+          bucket: ${{ env.S3_BUCKET }}
+          bucket-region: ${{ env.S3_BUCKET_REGION }}
+          dist-id: E1T18U7EDIPX60
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true
